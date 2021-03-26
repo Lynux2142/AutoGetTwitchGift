@@ -1,7 +1,7 @@
 {
 	"name": "Auto Get Bonus",
-	"description": "Lol MDR",
-	"version": "0.1.0",
+	"description": "Module permettant de recuperer automatiquement les gifts de points de chaine twitch",
+	"version": "1.0.0",
 	"permissions": ["activeTab"],
 	"content_scripts": [
 		{
