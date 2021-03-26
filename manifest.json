@@ -1,0 +1,21 @@
+{
+	"manifest_version": 2,
+	"name": "Auto Get Bonus",
+	"version": "0.1.0",
+	"description": "Lol MDR",
+	"browser_action": {
+		"default_popup": "index.html"
+	},
+	"icons": {
+		"64": "icon/index.png"
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["content.js"]
+		}
+	],
+	"permissions": [
+		"activeTab", "tabs", "http://*/*", "https://*/*"
+	]
+}
