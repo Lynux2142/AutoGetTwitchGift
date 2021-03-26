@@ -1,21 +1,23 @@
 {
-	"manifest_version": 2,
 	"name": "Auto Get Bonus",
-	"version": "0.1.0",
 	"description": "Lol MDR",
-	"browser_action": {
-		"default_popup": "index.html"
-	},
-	"icons": {
-		"64": "icon/index.png"
-	},
+	"version": "0.1.0",
+	"permissions": ["activeTab"],
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
 			"js": ["content.js"]
 		}
 	],
-	"permissions": [
-		"activeTab", "tabs", "http://*/*", "https://*/*"
-	]
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+	"browser_action": {
+		"default_title": "Auto Get Twitch Gift"
+	},
+	"icons": {
+		"64": "icon/index.png"
+	},
+	"manifest_version": 2
 }

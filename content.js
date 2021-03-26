@@ -1,9 +1,21 @@
-setInterval(() => {
-	const button = document.getElementsByClassName("tw-button tw-button--success");
-	if (button && button.length > 0) {
-		button[0].click();
-		console.log("Gift Earned");
-	} else {
-		console.log("No Gift");
+let isActive = false;
+
+chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
+	isActive = request.isActive;
+	console.log("Add on is " + (isActive ? "activated" : "desactivated"));
+	sendResponse(true);
+});
+
+const getGift = () => {
+	const gift = document.getElementsByClassName("tw-button tw-button--success");
+	if (gift.length) {
+		gift[0].click();
+		console.log("Gift Earned!");
 	}
-}, 10000);
+};
+
+setInterval(() => {
+	if (isActive) {
+		getGift();
+	}
+}, 5000);
