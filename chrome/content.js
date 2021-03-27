@@ -1,7 +1,16 @@
-let isActive = false;
+let isActive;
+
+chrome.extension.sendMessage("getIsActive", (response) => {
+	if (response !== null) {
+		isActive = response;
+	} else {
+		alert("Add on ERROR");
+	}
+});
 
 chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
 	isActive = request.isActive;
+	console.log("content: " + isActive);
 	console.log("Add on is " + (isActive ? "activated" : "desactivated"));
 	sendResponse(true);
 });

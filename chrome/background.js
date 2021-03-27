@@ -3,6 +3,10 @@ let isActive = false;
 chrome.browserAction.setBadgeText({text: "OFF"});
 chrome.browserAction.setBadgeBackgroundColor({color: "red"});
 
+chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
+	sendResponse((request === "getIsActive") ? isActive : null);
+});
+
 chrome.browserAction.onClicked.addListener((tab) => {
 	isActive = !isActive;
 	chrome.tabs.query({active: true, currentWindow: true}, () => {

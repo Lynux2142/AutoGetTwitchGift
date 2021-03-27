@@ -1,5 +1,13 @@
 let isActive = false;
 
+browser.runtime.sendMessage("getIsActive", (response) => {
+	if (response !== null) {
+		isActive = response;
+	} else {
+		alert("Add on ERROR");
+	}
+});
+
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	isActive = request.isActive;
 	console.log("Add on is " + (isActive ? "activated" : "desactivated"));
