@@ -3,7 +3,7 @@ let nbGift = 0;
 
 chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, (response) => {
 	if (chrome.runtime.lastError) {
-		alert("Add on ERROR");
+		console.log("Add on ERROR");
 	}
 });
 
@@ -16,7 +16,7 @@ chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
 			isActive = !isActive;
 			chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, (response) => {
 				if (chrome.runtime.lastError) {
-					alert("Add on ERROR");
+					console.log("Add on ERROR");
 				}
 			});
 			console.log(isActive ? "Activated" : "Deactivated");
@@ -37,7 +37,7 @@ const getGift = () => {
 		console.log("Gift Earned!");
 		chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, (response) => {
 			if (chrome.runtime.lastError) {
-				alert("Add on ERROR");
+				console.log("Add on ERROR");
 			}
 		});
 	}

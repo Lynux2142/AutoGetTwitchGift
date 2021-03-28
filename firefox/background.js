@@ -1,21 +1,24 @@
-let isActive = false;
-
 browser.browserAction.setBadgeText({text: "OFF"});
 browser.browserAction.setBadgeBackgroundColor({color: "red"});
 
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	sendResponse((request === "getIsActive") ? isActive : null);
-});
-
-browser.browserAction.onClicked.addListener((tab) => {
-	isActive = !isActive;
-	browser.tabs.query({active: true, currentWindow: true}, () => {
-		browser.tabs.sendMessage(tab.id, {isActive: isActive}, (response) => {
-			if (response != true) {
-				alert("Add on ERROR");
+browser.tabs.onActivated.addListener(() => {
+	browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
+		browser.tabs.sendMessage(tabs[0].id, {data: "getTabInfo"}, (response) => {
+			if (!browser.runtime.lastError) {
+				browser.browserAction.setBadgeText({text: response.isActive ? response.nbGift.toString() : "OFF"});
+				browser.browserAction.setBadgeBackgroundColor({color: response.isActive ? "green" : "red"});
+			} else {
+				browser.browserAction.setBadgeText({text: "OFF"});
+				browser.browserAction.setBadgeBackgroundColor({color: "red"});
 			}
 		});
 	});
-	browser.browserAction.setBadgeText({text: isActive ? "ON" : "OFF"});
-	browser.browserAction.setBadgeBackgroundColor({color: isActive ? "green" : "red"});
+});
+
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	if (sender.tab && sender.tab.active) {
+		browser.browserAction.setBadgeText({text: request.isActive ? request.nbGift.toString() : "OFF"});
+		browser.browserAction.setBadgeBackgroundColor({color: request.isActive ? "green" : "red"});
+	}
+	sendResponse(true);
 });
