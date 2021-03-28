@@ -1,21 +1,24 @@
-let isActive = false;
-
 chrome.browserAction.setBadgeText({text: "OFF"});
 chrome.browserAction.setBadgeBackgroundColor({color: "red"});
 
-chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
-	sendResponse((request === "getIsActive") ? isActive : null);
-});
-
-chrome.browserAction.onClicked.addListener((tab) => {
-	isActive = !isActive;
-	chrome.tabs.query({active: true, currentWindow: true}, () => {
-		chrome.tabs.sendMessage(tab.id, {isActive: isActive}, (response) => {
-			if (response != true) {
-				alert("Add on ERROR");
+chrome.tabs.onActivated.addListener((e) => {
+	chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+		chrome.tabs.sendMessage(tabs[0].id, {data: "getTabInfo"}, (response) => {
+			if (!chrome.runtime.lastError) {
+				chrome.browserAction.setBadgeText({text: response.isActive ? response.nbGift.toString() : "OFF"});
+				chrome.browserAction.setBadgeBackgroundColor({color: response.isActive ? "green" : "red"});
+			} else {
+				chrome.browserAction.setBadgeText({text: "OFF"});
+				chrome.browserAction.setBadgeBackgroundColor({color: "red"});
 			}
 		});
 	});
-	chrome.browserAction.setBadgeText({text: isActive ? "ON" : "OFF"});
-	chrome.browserAction.setBadgeBackgroundColor({color: isActive ? "green" : "red"});
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	if (sender.tab.active) {
+		chrome.browserAction.setBadgeText({text: request.isActive ? request.nbGift.toString() : "OFF"});
+		chrome.browserAction.setBadgeBackgroundColor({color: request.isActive ? "green" : "red"});
+	}
+	sendResponse(true);
 });
