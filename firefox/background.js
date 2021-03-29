@@ -16,9 +16,7 @@ browser.tabs.onActivated.addListener(() => {
 });
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	if (sender.tab && sender.tab.active) {
-		browser.browserAction.setBadgeText({text: request.isActive ? request.nbGift.toString() : "OFF"});
-		browser.browserAction.setBadgeBackgroundColor({color: request.isActive ? "green" : "red"});
-	}
+	browser.browserAction.setBadgeText({tabId: sender.tab.id, text: request.isActive ? request.nbGift.toString() : "OFF"}, () => browser.runtime.lastError);
+	browser.browserAction.setBadgeBackgroundColor({tabId: sender.tab.id, color: request.isActive ? "green" : "red"}, () => browser.runtime.lastError);
 	sendResponse(true);
 });
