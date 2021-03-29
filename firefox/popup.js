@@ -5,9 +5,9 @@ window.addEventListener("load", () => {
 	browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
 		browser.tabs.sendMessage(tabs[0].id, {data: "getIsActive"}, (response) => {
 			if (!browser.runtime.lastError) {
-				button.innerHTML = response ? "Pause" : "Start";
+				button.textContent = response ? "Pause" : "Start";
 			} else {
-				button.innerHTML = "Start";
+				button.textContent = "Start";
 			}
 		});
 	});
@@ -15,9 +15,9 @@ window.addEventListener("load", () => {
 		browser.tabs.query({active: true, currentWindow: true}, (tabs) => {
 			browser.tabs.sendMessage(tabs[0].id, {data: "switch"}, (response) => {
 				if (!browser.runtime.lastError) {
-					button.innerHTML = response ? "Pause" : "Start";
+					button.textContent = response ? "Pause" : "Start";
 				} else {
-					button.innerHTML = "Start";
+					button.textContent = "Start";
 				}
 			});
 		});
