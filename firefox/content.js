@@ -1,24 +1,16 @@
 let isActive = false;
 let nbGift = 0;
 
-browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, (response) => {
-	if (browser.runtime.lastError) {
-		console.log("Add on ERROR");
-	}
-});
+browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => browser.runtime.lastError);
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	switch(request.data) {
+	switch (request.data) {
 		case "getIsActive":
 			sendResponse(isActive);
 			break;
 		case "switch":
 			isActive = !isActive;
-			browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, (response) => {
-				if (browser.runtime.lastError) {
-					console.log("Add on ERROR");
-				}
-			});
+			browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => browser.runtime.lastError);
 			console.log(isActive ? "Activated" : "Deactivated");
 			sendResponse(isActive);
 			break;
@@ -26,7 +18,6 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			sendResponse({isActive: isActive, nbGift: nbGift});
 			break;
 	}
-	sendResponse(null);
 });
 
 const getGift = () => {
@@ -35,11 +26,7 @@ const getGift = () => {
 		gift[0].click();
 		++nbGift;
 		console.log("Gift Earned!");
-		browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, (response) => {
-			if (browser.runtime.lastError) {
-				console.log("Add on ERROR");
-			}
-		});
+		browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => browser.runtime.lastError);
 	}
 };
 
