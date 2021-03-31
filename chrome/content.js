@@ -1,18 +1,12 @@
 let isActive = false;
 let nbGift = 0;
 
-chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => chrome.runtime.lastError);
-
-chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	switch (request.data) {
-		case "getIsActive":
-			sendResponse(isActive);
-			break;
 		case "switch":
 			isActive = !isActive;
-			chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => chrome.runtime.lastError);
 			console.log(isActive ? "Activated" : "Deactivated");
-			sendResponse(isActive);
+			sendResponse({isActive: isActive, nbGift: nbGift});
 			break;
 		case "getTabInfo":
 			sendResponse({isActive: isActive, nbGift: nbGift});

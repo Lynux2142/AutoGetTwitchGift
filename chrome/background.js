@@ -1,14 +1,6 @@
-chrome.browserAction.setBadgeText({text: "OFF"});
-chrome.browserAction.setBadgeBackgroundColor({color: "red"});
-
 const updateBadge = (data) => {
-	if (data) {
-		chrome.browserAction.setBadgeText({text: data.isActive ? data.nbGift.toString() : "OFF"});
-		chrome.browserAction.setBadgeBackgroundColor({color: data.isActive ? "green" : "red"});
-	} else {
-		chrome.browserAction.setBadgeText({text: "OFF"});
-		chrome.browserAction.setBadgeBackgroundColor({color: "red"});
-	}
+	chrome.browserAction.setBadgeText({text: data.isActive ? data.nbGift.toString() : "OFF"});
+	chrome.browserAction.setBadgeBackgroundColor({color: data.isActive ? "green" : "red"});
 };
 
 const sendTabsMessage = (request) => {
@@ -18,6 +10,8 @@ const sendTabsMessage = (request) => {
 		});
 	});
 };
+
+updateBadge({});
 
 chrome.browserAction.onClicked.addListener(() => {
 	sendTabsMessage({data: "switch"});

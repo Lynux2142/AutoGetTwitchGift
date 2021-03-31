@@ -1,14 +1,6 @@
-browser.browserAction.setBadgeText({text: "OFF"});
-browser.browserAction.setBadgeBackgroundColor({color: "red"});
-
 const updateBadge = (data) => {
-	if (data) {
-		browser.browserAction.setBadgeText({text: data.isActive ? data.nbGift.toString() : "OFF"});
-		browser.browserAction.setBadgeBackgroundColor({color: data.isActive ? "green" : "red"});
-	} else {
-		browser.browserAction.setBadgeText({text: "OFF"});
-		browser.browserAction.setBadgeBackgroundColor({color: "red"});
-	}
+	browser.browserAction.setBadgeText({text: data.isActive ? data.nbGift.toString() : "OFF"});
+	browser.browserAction.setBadgeBackgroundColor({color: data.isActive ? "green" : "red"});
 };
 
 const sendTabsMessage = (request) => {
@@ -19,6 +11,8 @@ const sendTabsMessage = (request) => {
 	});
 };
 
+updateBadge({});
+
 browser.browserAction.onClicked.addListener(() => {
 	sendTabsMessage({data: "switch"});
 });
@@ -28,6 +22,6 @@ browser.tabs.onActivated.addListener(() => {
 });
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	browser.browserAction.setBadgeText({tabId: sender.tab.id, text: request.isActive ? request.nbGift.toString() : "OFF"}, () => browser.runtime.lastError);
-	browser.browserAction.setBadgeBackgroundColor({tabId: sender.tab.id, color: request.isActive ? "green" : "red"}, () => browser.runtime.lastError);
+	browser.browserAction.setBadgeText({tabId: sender.tab.id, text: request.isActive ? request.nbGift.toString() : "OFF"}, () => chrome.runtime.lastError);
+	browser.browserAction.setBadgeBackgroundColor({tabId: sender.tab.id, color: request.isActive ? "green" : "red"}, () => chrome.runtime.lastError);
 });
