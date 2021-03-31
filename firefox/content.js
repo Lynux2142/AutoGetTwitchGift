@@ -20,7 +20,7 @@ const getGift = () => {
 		gift[0].click();
 		++nbGift;
 		console.log("Gift Earned!");
-		browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => chrome.runtime.lastError);
+		browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => browser.runtime.lastError);
 	}
 };
 
