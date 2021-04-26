@@ -31,7 +31,6 @@ const getGift = () => {
 };
 
 const interval = () => {
-	console.log("try");
 	getGift();
 	timeoutID = setTimeout(interval, ms);
 	ms = DEFAULT_MS;
