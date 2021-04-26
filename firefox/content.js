@@ -1,3 +1,8 @@
+const DEFAULT_MS = 5000;
+const TEMPO_MS = 900000;
+
+let timeoutID;
+let ms = DEFAULT_MS;
 let isActive = false;
 let nbGift = 0;
 
@@ -5,7 +10,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	switch (request.data) {
 		case "switch":
 			isActive = !isActive;
-			console.log(isActive ? "Activated" : "Deactivated");
+			isActive ? startInterval(DEFAULT_MS) : stopInterval();
 			sendResponse({isActive: isActive, nbGift: nbGift});
 			break;
 		case "getTabInfo":
@@ -20,12 +25,24 @@ const getGift = () => {
 		gift[0].click();
 		++nbGift;
 		console.log("Gift Earned!");
-		browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => browser.runtime.lastError);
+		ms = TEMPO_MS;
+		browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => chrome.runtime.lastError);
 	}
 };
 
-setInterval(() => {
-	if (isActive) {
-		getGift();
-	}
-}, 5000);
+const interval = () => {
+	console.log("try");
+	getGift();
+	timeoutID = setTimeout(interval, ms);
+	ms = DEFAULT_MS;
+};
+
+const startInterval = (ms) => {
+	console.log("Activated");
+	interval();
+};
+
+const stopInterval = () => {
+	console.log("Deactivated");
+	clearTimeout(timeoutID);
+};

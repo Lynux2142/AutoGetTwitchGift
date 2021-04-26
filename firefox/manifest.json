@@ -1,7 +1,7 @@
 {
 	"name": "Auto Get Bonus",
 	"description": "Module permettant de recuperer automatiquement les gifts de points de chaine twitch",
-	"version": "3.2.0",
+	"version": "4.0.0",
 	"permissions": ["activeTab", "tabs"],
 	"content_scripts": [
 		{
