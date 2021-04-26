@@ -1,8 +1,8 @@
 const DEFAULT_MS = 5000;
 const TEMPO_MS = 900000;
+const regex = new RegExp('^https:\/\/www\.twitch\.tv\/');
 
 let timeoutID;
-let ms = DEFAULT_MS;
 let isActive = false;
 let nbGift = 0;
 
@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	switch (request.data) {
 		case "switch":
 			isActive = !isActive;
-			isActive ? startInterval(DEFAULT_MS) : stopInterval();
+			isActive ? startInterval() : stopInterval();
 			sendResponse({isActive: isActive, nbGift: nbGift});
 			break;
 		case "getTabInfo":
@@ -21,22 +21,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 const getGift = () => {
 	const gift = document.getElementsByClassName("tw-button tw-button--success");
-	if (gift.length) {
-		gift[0].click();
-		++nbGift;
-		console.log("Gift Earned!");
-		ms = TEMPO_MS;
-		chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => chrome.runtime.lastError);
-	}
+	if (gift.length <= 0) return (false);
+	gift[0].click();
+	++nbGift;
+	console.log("Gift Earned!");
+	chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => chrome.runtime.lastError);
+	return (true);
 };
 
 const interval = () => {
-	getGift();
-	timeoutID = setTimeout(interval, ms);
-	ms = DEFAULT_MS;
+	timeoutID = setTimeout(interval, (getGift() ? TEMPO_MS : DEFAULT_MS));
 };
 
-const startInterval = (ms) => {
+const startInterval = () => {
 	console.log("Activated");
 	interval();
 };
@@ -45,3 +42,9 @@ const stopInterval = () => {
 	console.log("Deactivated");
 	clearTimeout(timeoutID);
 };
+
+if (regex.test(location.href)) {
+	isActive = true;
+	interval();
+	chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => chrome.runtime.lastError);
+}
