@@ -1,5 +1,6 @@
 const DEFAULT_MS = 5000;
 const TEMPO_MS = 900000;
+const BUTTON_CLASS_NAME = "ScCoreButton-sc-1qn4ixc-0 ScCoreButtonSuccess-sc-1qn4ixc-5 VGQNd";
 const regex = new RegExp('^https:\/\/www\.twitch\.tv\/');
 
 let timeoutID;
@@ -20,7 +21,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 const getGift = () => {
-	const gift = document.getElementsByClassName("tw-button tw-button--success");
+	const gift = document.getElementsByClassName(BUTTON_CLASS_NAME);
 	if (gift.length <= 0) return (false);
 	gift[0].click();
 	++nbGift;
