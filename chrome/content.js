@@ -1,6 +1,6 @@
 const DEFAULT_MS = 5000;
 const TEMPO_MS = 900000;
-const BUTTON_CLASS_NAME = "ScCoreButton-sc-1qn4ixc-0 ScCoreButtonSuccess-sc-1qn4ixc-5 VGQNd";
+const BUTTON_CLASS_NAME = "sc-fzozJi sc-fznKkj jwRWhW";
 const regex = new RegExp('^https:\/\/www\.twitch\.tv\/');
 
 let timeoutID;
