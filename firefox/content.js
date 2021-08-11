@@ -1,6 +1,6 @@
 const DEFAULT_MS = 5000;
 const TEMPO_MS = 900000;
-const BUTTON_CLASS_NAME = "sc-fzozJi sc-fznKkj jwRWhW";
+const BUTTON_CLASS_NAME = "Layout-sc-nxg1ff-0 kMEhJO";
 const regex = new RegExp('^https:\/\/www\.twitch\.tv\/');
 
 let timeoutID;
@@ -21,13 +21,17 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 const getGift = () => {
-	const gift = document.getElementsByClassName(BUTTON_CLASS_NAME);
-	if (gift.length <= 0) return (false);
-	gift[0].click();
-	++nbGift;
-	console.log("Gift Earned!");
-	browser.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => browser.runtime.lastError);
-	return (true);
+	try {
+		const gift = document.getElementsByClassName(BUTTON_CLASS_NAME)[0]
+			.getElementsByTagName("button")[0];
+		gift.click();
+		++nbGift;
+		console.log("Gift Earned!");
+		chrome.runtime.sendMessage({isActive: isActive, nbGift: nbGift}, () => chrome.runtime.lastError);
+		return (true);
+	} catch (e) {
+		return (false);
+	}
 };
 
 const interval = () => {
