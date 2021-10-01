@@ -22,8 +22,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 const getGift = () => {
 	try {
-		const gift = document.getElementsByClassName(BUTTON_CLASS_NAME)[0]
-			.getElementsByTagName("button")[0];
+		const gift = document.querySelectorAll(`[data-test-selector="community-points-summary"]`)[0]
+			.getElementsByTagName("button")[1];
 		gift.click();
 		++nbGift;
 		console.log("Gift Earned!");
