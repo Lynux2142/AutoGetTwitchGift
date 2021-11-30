@@ -1,5 +1,5 @@
 const DEFAULT_MS = 5000;
-const TEMPO_MS = 900000;
+const TEMPO_MS = 600000;
 const BUTTON_CLASS_NAME = "Layout-sc-nxg1ff-0 kMEhJO";
 const regex = new RegExp('^https:\/\/www\.twitch\.tv\/');
 
