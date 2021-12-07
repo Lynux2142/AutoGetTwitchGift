@@ -1,10 +1,10 @@
 {
 	"name": "Twitch Bonus Auto Clicker",
 	"description": "Extension that automatically collects bonus channel points on Twitch",
-	"version": "4.2.1",
+	"version": "4.2.2",
 	"content_scripts": [
 		{
-			"matches": ["<all_urls>"],
+			"matches": ["*://www.twitch.tv/*"],
 			"js": ["content.js"],
 			"run_at": "document_start"
 		}
