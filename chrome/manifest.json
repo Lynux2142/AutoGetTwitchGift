@@ -1,8 +1,7 @@
 {
 	"name": "Twitch Bonus Auto Clicker",
-	"description": "Extension that automatically clicks on twitch chain points bonus",
-	"version": "4.2.0",
-	"permissions": ["tabs"],
+	"description": "Extension that automatically collects bonus channel points on Twitch",
+	"version": "4.2.1",
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
