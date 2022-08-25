@@ -1,6 +1,6 @@
 const updateBadge = (tabId, data) => {
-	chrome.browserAction.setBadgeText({tabId: tabId, text: data.isActive ? data.nbGift.toString() : "OFF"});
-	chrome.browserAction.setBadgeBackgroundColor({tabId: tabId, color: data.isActive ? "green" : "red"});
+	chrome.action.setBadgeText({tabId: tabId, text: data.isActive ? data.nbGift.toString() : "OFF"});
+	chrome.action.setBadgeBackgroundColor({tabId: tabId, color: data.isActive ? "green" : "red"});
 };
 
 const sendTabsMessage = (request) => {
@@ -13,7 +13,7 @@ const sendTabsMessage = (request) => {
 
 updateBadge(null, {});
 
-chrome.browserAction.onClicked.addListener(() => {
+chrome.action.onClicked.addListener(() => {
 	sendTabsMessage({data: "switch"});
 });
 
